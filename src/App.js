@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { Container, Form, FormControl, Button} from 'react-bootstrap';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  state = {
+    text: '',
+    notes: []
+  }
+
+  submit = () => {
+    
+    const {notes} = this.state;
+
+    notes.push({text: this.state.text});
+
+    this.setState({notes});
+
+  }
+
+  render() {
+
+    return (
+      <Container>
+        <h2>Note to self</h2>
+        <Form inline>
+          <FormControl onChange={e => this.setState({text: e.target.value})} />
+          <Button onClick={() => this.submit()}>Submit</Button>
+        </Form>
+        {
+          this.state.notes.map((el, i) => <div key={i}>{el.text}</div> )
+        }
+      </Container>
+    );
+  }
 }
 
 export default App;
