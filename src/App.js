@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Container, Form, FormControl, Button} from 'react-bootstrap';
+import React, { Component, Fragment } from 'react';
+import Note from './Note';
 
 class App extends Component {
 
@@ -14,23 +14,26 @@ class App extends Component {
 
     notes.push({text: this.state.text});
 
-    this.setState({notes});
+    this.setState({notes, text: ''});
 
   }
+
+  clear = () => this.setState({notes: []});
 
   render() {
 
     return (
-      <Container>
+      <Fragment>
         <h2>Note to self</h2>
-        <Form inline>
-          <FormControl onChange={e => this.setState({text: e.target.value})} />
-          <Button onClick={() => this.submit()}>Submit</Button>
-        </Form>
+        <form>
+          <input className='inputchange' type="text" value={this.state.text} onChange={e => this.setState({text: e.target.value})}/>
+          <input className='create' type='button' onClick={() => this.submit()} value='Submit' />
+          <input className='btn' type='button' onClick={() => this.clear()} value='Clear' />
+        </form>
         {
-          this.state.notes.map((el, i) => <div key={i}>{el.text}</div> )
+          this.state.notes.map((el, i) => <Note key={i} text={el.text} /> )
         }
-      </Container>
+      </Fragment>
     );
   }
 }
